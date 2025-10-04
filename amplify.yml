@@ -3,8 +3,7 @@ frontend:
   phases:
     preBuild:
       commands:
-        - cd klipsan-mehdi
-        - npm ci
+        - npm ci # Use 'npm ci' for faster, more reliable installs in CI/CD
     build:
       commands:
         - npm run build
@@ -14,4 +13,5 @@ frontend:
       - '**/*'
   cache:
     paths:
+      - .next/cache/**/*
       - node_modules/**/*
