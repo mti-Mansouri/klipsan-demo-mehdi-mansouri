@@ -1,0 +1,17 @@
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - cd klipsan-mehdi
+        - npm ci
+    build:
+      commands:
+        - npm run build
+  artifacts:
+    baseDirectory: klipsan-mehdi/.next
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - klipsan-mehdi/node_modules/**/*
