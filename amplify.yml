@@ -3,15 +3,22 @@ frontend:
   phases:
     preBuild:
       commands:
-        - npm ci # Use 'npm ci' for faster, more reliable installs in CI/CD
+        - npm ci
     build:
       commands:
-        - npm run build
+        # Next.js 15 build (SSR compatible)
+        - npx next build
   artifacts:
+    # This must be .next to include SSR lambda files
     baseDirectory: .next
     files:
       - '**/*'
   cache:
     paths:
-      - .next/cache/**/*
       - node_modules/**/*
+
+  customHeaders:
+    - pattern: '**/*'
+      headers:
+        - key: 'Cache-Control'
+          value: 'public,max-age=0,must-revalidate'
