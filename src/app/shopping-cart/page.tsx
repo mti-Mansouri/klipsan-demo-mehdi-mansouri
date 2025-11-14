@@ -4,5 +4,7 @@ export default function ShoppingCartPage() {
 
 
 
-    return <div>Shopping Cart Page</div>;
+    return <main>
+        Shopping Cart Page
+    </main>
 }

@@ -1,3 +1,5 @@
 export default function JoinPage(){
-    return <h1>Join Page</h1>;
+    return <main>
+        Join Page
+    </main>
 }
