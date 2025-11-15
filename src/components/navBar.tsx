@@ -52,7 +52,7 @@ return ()=> window.removeEventListener("scroll", onScroll);
   },[])
 
 const baseClasses = `
-  sticky top-0 z-50 px-[50px] flex justify-between items-center h-[90px]
+  fixed w-full right-0 left-0 z-50 px-[50px] flex justify-between items-center h-[90px]
   
   ${!scrolled ? "bg-transparent" : theme === "dark" ? "bg-black" : "bg-white"}
   ${theme === "dark" ? "text-white" : "text-black"}
@@ -61,8 +61,8 @@ const baseClasses = `
   // ----------------------------
   return (
     <nav className={` ${baseClasses}  `}>
-      <section className="left-nav">
-        <ul>
+      <section className="left-nav p-[20px]">
+        <ul className="p-[20px]">
           <li>
             <Link href={"/"}>KLIPSAN</Link>
           </li>
