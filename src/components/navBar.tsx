@@ -70,7 +70,7 @@ export default function NavBar() {
                 currentPAth === "/book-a-class" ||
                 currentPAth === "/classes" ||
                 currentPAth === "/classes-overview"
-                  ? "underline"
+                  ? "border-b"
                   : ""
               }
               href="/classes"
@@ -81,7 +81,7 @@ export default function NavBar() {
           <li>
             <Link
               className={
-                (currentPAth as Path) === "/instructors" ? "underline" : ""
+                (currentPAth as Path) === "/instructors" ? "border-b" : ""
               }
               href="/instructors"
             >
@@ -90,7 +90,7 @@ export default function NavBar() {
           </li>
           <li>
             <Link
-              className={currentPAth === "/locations" ? "underline" : ""}
+              className={currentPAth === "/locations" ? "border-b" : ""}
               href="/locations"
             >
               Locations
@@ -98,7 +98,7 @@ export default function NavBar() {
           </li>
           <li>
             <Link
-              className={(currentPAth as Path) === "/shop" ? "underline" : ""}
+              className={(currentPAth as Path) === "/shop" ? "border-b" : ""}
               href="/shop"
             >
               Shop
