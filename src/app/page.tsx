@@ -38,11 +38,11 @@ export default function Home() {
   {/* second section */}
   <section className="
   w-screen
-  h-[30vh]
+  h-[40vh]
   bg-black
   grid
   grid-cols-[repeat(24,1fr)]
-  grid-rows-[repeat(4,1fr)]
+  grid-rows-[repeat(5,1fr)]
   
   ">
     <p
@@ -52,7 +52,7 @@ export default function Home() {
     text-white
     text-[40px]
     col-start-[3] col-end-[14]
-    row-start-[2] row-end-[-1]
+    row-start-[2] row-end-[span 2]
     font-bold
     "
     >WE’RE A HIGH QUALITY GYM DEDICATED TO AFFORDABLE HEALTH AND WELLNESS.</p>
@@ -61,7 +61,7 @@ export default function Home() {
     text-white
     text-lg
     col-start-[17] col-end-[-3]
-    row-start-[2] row-end-[-1]
+    row-start-[2] row-end-[span 2]
 
     "
     >Klipsan Fitness is a gym where you come as you are, and do your best. Our membership offers both digital and in-club programming aimed at helping you achieve your fitness goals. Discover all of our club’s offerings below.</p>
@@ -69,13 +69,62 @@ export default function Home() {
 
 {/* section 3 */}
 
-  <section>
-    <img src="" alt="" />
-    <img src="" alt="" />
+  <section
+  className="
+    w-screen
+  h-screen
+  bg-black
+  grid
+  grid-cols-[repeat(24,1fr)]
+  grid-rows-[repeat(12,1fr)]
+  overflow-hidden
+  "
+  >
+    <img
+    className="
+    object-cover
+    col-start-[7] col-end-[14]
+    row-start-[4] row-end-[11]
+    "
+    src="/Images/img-2.jpg" alt="" />
+    <img
+        className="
+    object-cover
+    col-start-[13] col-end-[19]
+    row-start-[2] row-end-[-3]
+    "
+    src="/Images/img-3.webp" alt="" />
   </section>
-  <section>
-    <div>AMENITIES</div>
-    <p>At Klipsan Fitness, we’re always expanding our amenities to meet the needs of our community. Something you’d like to see added to our list? Submit a request.</p>
+  <section
+  className="
+  w-screen
+  h-[120vh]
+  bg-black
+  text-white
+    grid
+  grid-cols-[repeat(24,1fr)]
+  grid-rows-[repeat(16,1fr)]
+  "
+  >
+    <div
+    className="
+    font-bebas
+    font-bold
+    col-start-[11] col-end-[14]
+    row-start-[4] row-end-[span 1]
+    text-[35px]
+    text-center
+    "
+    >AMENITIES</div>
+    <p
+    className="
+    text-lg
+    col-start-[8] col-end-[17]
+    row-start-[5] row-end-[span 1]
+    text-center
+    pt-4
+    "
+    >At Klipsan Fitness, we’re always expanding our amenities to meet the needs of our community. Something you’d like to see added to our list? Submit a request.</p>
     <ul>
       <li></li>
       <li></li>
@@ -91,13 +140,14 @@ export default function Home() {
       <li></li>
     </ul>
   </section>
+  {/* section 4 */}
   <section>
     <div>SCHEDULE A VISIT</div>
     <p>Take a free 30-minute tour of either of our locations to help you decide if Klipsan is the right gym for you. You’ll have the opportunity to try equipment, observe classes, and get direct answers to all of your questions.</p>
   <form action=""></form>
 
   </section>
-
+  {/* section 5 */}
   <section>
     <p>KLIPSAN FITNESS WAS CENTRAL IN HELPING ME GAIN THE STAMINA FOR MY RECENT MARATHON.</p>
     <p>-Alejandro Jimenez</p>
