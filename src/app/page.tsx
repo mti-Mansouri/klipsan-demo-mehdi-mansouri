@@ -36,10 +36,39 @@ export default function Home() {
   </figure>
 
   {/* second section */}
-  <section>
-    <p>WE’RE A HIGH QUALITY GYM DEDICATED TO AFFORDABLE HEALTH AND WELLNESS.</p>
-    <p>Klipsan Fitness is a gym where you come as you are, and do your best. Our membership offers both digital and in-club programming aimed at helping you achieve your fitness goals. Discover all of our club’s offerings below.</p>
+  <section className="
+  w-screen
+  h-[30vh]
+  bg-black
+  grid
+  grid-cols-[repeat(24,1fr)]
+  grid-rows-[repeat(4,1fr)]
+  
+  ">
+    <p
+    className="
+    font-bebas
+    uppercase
+    text-white
+    text-[40px]
+    col-start-[3] col-end-[14]
+    row-start-[2] row-end-[-1]
+    font-bold
+    "
+    >WE’RE A HIGH QUALITY GYM DEDICATED TO AFFORDABLE HEALTH AND WELLNESS.</p>
+    <p
+    className="
+    text-white
+    text-lg
+    col-start-[17] col-end-[-3]
+    row-start-[2] row-end-[-1]
+
+    "
+    >Klipsan Fitness is a gym where you come as you are, and do your best. Our membership offers both digital and in-club programming aimed at helping you achieve your fitness goals. Discover all of our club’s offerings below.</p>
   </section>
+
+{/* section 3 */}
+
   <section>
     <img src="" alt="" />
     <img src="" alt="" />
