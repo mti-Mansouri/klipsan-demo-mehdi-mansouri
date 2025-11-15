@@ -1,3 +1,3 @@
 export default function BookClassPage() {
-    return <main>book a class</main>;
+    return <main className="min-h-[50vh] bg-white pt-[100px]">book a class</main>;
 }
