@@ -3,11 +3,39 @@ import Image from "next/image";
 export default function Home() {
   return (
  <main className="">
-  <figure className=" w-[100vw] h-[100vh] relative">
+  <figure className="
+  w-screen
+  h-screen
+  relative
+  grid
+  grid-cols-[repeat(24,1fr)]
+  grid-rows-[repeat(12,1fr)]
+  ">
   {/* <Image className="object-" fill quality={100} src ="/Images/img-1.webp"  alt="Klipsan-header"/> */}
-  <img className="w-full h-full object-cover" src ="/Images/img-1.webp"  alt="Klipsan-header" />
-    <p>TRAIN ON YOUR OWN TIME.</p>
+  <img className="
+  col-start-1 col-end-[-1]
+  row-start-1 row-end-[-1]
+  w-full
+  h-full
+  object-cover
+
+  "
+   src ="/Images/img-1.webp"  alt="Klipsan-header" />
+   <div
+   className="
+       col-start-1 col-end-[-1]
+  row-start-1 row-end-[-1]
+  z-5
+  bg-[radial-gradient(circle,transparent_50%,rgba(0,0,0,0.3)_100%)]
+   "
+   ></div>
+    <p className="text-white text-[50px] z-10 font-bebas font-bold
+    col-start-[3] col-end-[20] 
+                row-start-[11] row-end-[-1]
+    ">TRAIN ON YOUR OWN TIME.</p>
   </figure>
+
+  {/* second section */}
   <section>
     <p>WE’RE A HIGH QUALITY GYM DEDICATED TO AFFORDABLE HEALTH AND WELLNESS.</p>
     <p>Klipsan Fitness is a gym where you come as you are, and do your best. Our membership offers both digital and in-club programming aimed at helping you achieve your fitness goals. Discover all of our club’s offerings below.</p>

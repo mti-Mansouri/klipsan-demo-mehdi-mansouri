@@ -1,9 +1,20 @@
 import type { Metadata } from "next";
 import NavBar from "@/components/navBar";
 import Footer from "@/components/footer";
+import localfont from "next/font/local";
 // import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
+const bebas = localfont({
+  src: [
+    {
+      path: "../../public/fonts/BebasNeue-Regular.ttf",
+      weight: "400",
+      style: "normal",
+    }
+  ],
+  variable: "--font-bebas",
+})
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",
 //   subsets: ["latin"],
@@ -25,7 +36,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en"
+    className={bebas.variable}
+    >
       <body
       // className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
