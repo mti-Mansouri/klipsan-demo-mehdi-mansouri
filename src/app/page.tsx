@@ -226,29 +226,38 @@ export default function Home() {
       <section
         className="
     
-bg-[linear-gradient(90deg,#d6ca69,#c7b478,#9f8d83,#7c9e8f)]
-  text-white 
-  w-screen
-  h-[65vh]
-  overflow-hidden
-  grid
-  grid-cols-[repeat(24,1fr)]
-  grid-rows-[repeat(10,1fr)]
+        bg-[linear-gradient(90deg,#d6ca69,#c7b478,#9f8d83,#7c9e8f)]
+       text-white 
+        w-screen
+        h-[65vh]
+        overflow-hidden
+        grid
+        grid-cols-[repeat(24,1fr)]
+        grid-rows-[repeat(10,1fr)]">
   
-  "
-      >
-        <p 
-        className="
-        font-bebas
-        text-center
-        font-bold
-        text-[40px]
-col-start-[3] col-end-[-3] row-start-[5] row-end-[span 3]
+  
+      
+        <p
+          className="
+                  font-bebas
+                  text-center
+                  font-bold
+                  text-[40px]
+          col-start-[5] col-end-[-5] row-start-[3] row-end-[-5]
 
-relative
-before:content-['“'] before:text-[65px] before:absolute before:left-[50%] before:-top-[150%] before:translate-[-50%,-50%]
-after:content-['-Alejandro Jimenez'] after:text-[20px] after:absolute after:left-[50%] after:top-[50%] 
-        "
+          relative my-8
+          before:content-['“'] before:text-[65px] before:absolute
+          before:bottom-full before:left-1/2
+          before:-translate-x-1/2
+          before:mb-2
+
+          
+          after:content-['-Alejandro_Jimenez']
+          after:text-[20px]  
+          after:top-full after:left-1/2 after:-translate-x-1/2 
+          after:absolute
+          after:mt-2
+                  "
         >
           KLIPSAN FITNESS WAS CENTRAL IN HELPING ME GAIN THE STAMINA FOR MY
           RECENT MARATHON.
