@@ -118,26 +118,41 @@ export default function Home() {
     >AMENITIES</div>
     <p
     className="
-    text-lg
-    col-start-[8] col-end-[17]
+    text-[22px]
+    col-start-[7] col-end-[18]
     row-start-[5] row-end-[span 1]
     text-center
     pt-4
     "
     >At Klipsan Fitness, we’re always expanding our amenities to meet the needs of our community. Something you’d like to see added to our list? Submit a request.</p>
-    <ul>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
+    <ul className="
+    col-start-[8] col-end-[11]
+    row-start-[10] row-end-[span auto]
+    text-center
+    text-[18px]
+        flex flex-col items-center gap-[25px]
+    ">
+      <li className="before:content-['•']  relative before:absolute before:left-[50%] before:top-[100%]" >Modern Facilities</li>
+      <li className="before:content-['•']  relative before:absolute before:left-[50%] before:top-[100%]" >Premium Classes</li>
+      <li className="before:content-['•']  relative before:absolute before:left-[50%] before:top-[100%]" >Personal Trainers</li>
+      <li className="before:content-['•']  relative before:absolute before:left-[50%] before:top-[100%]" >Rockwall</li>
+      <li className="" >Boxing Ring</li>
     </ul>
-        <ul>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
+        <ul
+        className="
+    col-start-[14] col-end-[17]
+    row-start-[10] row-end-[span auto]
+    text-center
+    text-[18px]
+    flex flex-col items-center gap-[25px]
+
+    "
+        >
+      <li className="before:content-['•']  relative before:absolute before:left-[50%] before:top-[100%]" >Juice Bar</li>
+      <li className="before:content-['•']  relative before:absolute before:left-[50%] before:top-[100%]  " >Personal Nutritiousness</li>
+      <li className="before:content-['•']  relative before:absolute before:left-[50%] before:top-[100%]" >Monthly Guest Passes</li>
+      <li className="before:content-['•']  relative before:absolute before:left-[50%] before:top-[100%]" >Basketball Courts</li>
+      <li className="" >Lockers</li>
     </ul>
   </section>
   {/* section 4 */}
