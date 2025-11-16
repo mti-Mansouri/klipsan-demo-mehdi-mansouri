@@ -233,10 +233,8 @@ export default function Home() {
         overflow-hidden
         grid
         grid-cols-[repeat(24,1fr)]
-        grid-rows-[repeat(10,1fr)]">
-  
-  
-      
+        grid-rows-[repeat(10,1fr)]"
+      >
         <p
           className="
                   font-bebas
@@ -262,13 +260,6 @@ export default function Home() {
           KLIPSAN FITNESS WAS CENTRAL IN HELPING ME GAIN THE STAMINA FOR MY
           RECENT MARATHON.
         </p>
-        {/* <p
-        className="
-        text-center
-col-start-[11] col-end-[14] row-start-[7] row-end-[span 1]
-text-[20px]
-        "
-        >-Alejandro Jimenez</p> */}
       </section>
 
       {/* section 6 */}
@@ -280,12 +271,32 @@ text-[20px]
   h-[30vh]
   overflow-hidden
   grid
-  grid-cols-[repeat(24,1fr)]
-  grid-rows-[repeat(6,1fr)]
+  grid-cols-[repeat(6,1fr)]
+  grid-rows-[1]
   "
       >
-        <section></section>
-        <section></section>
+        <section
+          className="
+        col-start-[2] col-end-[3]
+        flex flex-col justify-center items-center
+        "
+        >
+          <p className="font-bebas text-[25px] mb-8 font-bold">BROOKLYN</p>
+          <p>12834 Fitness Ln.</p>
+          <p>Brooklyn, NY</p>
+          <p>11385</p>
+        </section>
+        <section
+          className="
+        col-start-[5] col-end-[6]
+        flex flex-col justify-center items-center
+        "
+        >
+          <p className="font-bebas text-[25px] mb-8 font-bold">LOS ANGELES</p>
+          <p>12834 Fitness Ln.</p>
+          <p>Los Angeles, LA</p>
+          <p>11385</p>
+        </section>
       </section>
 
       {/* section 7 */}
