@@ -139,7 +139,7 @@ export default function NavBar() {
           </li>
           <li>
             <Link href={"/join"}>
-            <ButtonKlipsan theme={theme==="dark"?"dark":"light"}>Join OUR  Now</ButtonKlipsan>
+            <ButtonKlipsan theme={theme==="dark"?"dark":"light"}>Join OUR GYM</ButtonKlipsan>
             </Link>
           </li>
         </ul>

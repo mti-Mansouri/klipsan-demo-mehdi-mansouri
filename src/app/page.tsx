@@ -1,5 +1,5 @@
 import Image from "next/image";
-
+import ButtonKlipsan from "@/components/button-comonent";
 export default function Home() {
   return (
     <main className="">
@@ -206,21 +206,82 @@ export default function Home() {
         className="bg-white
   text-black
   w-screen
-  h-[75vh]
+  h-[80vh]
   overflow-hidden
+  grid
   grid-cols-[repeat(24,1fr)]
   grid-rows-[repeat(10,1fr)]
   
   "
       >
-        <div>SCHEDULE A VISIT</div>
-        <p>
+        <div
+          className="font-bebas font-bold text-[50px] 
+                  col-start-[3] col-end-[10] row-start-[3] row-end-[4]
+        
+        "
+        >
+          SCHEDULE A VISIT
+        </div>
+        <p
+          className="
+                  col-start-[3] col-end-[10] row-start-[4] row-end-[7] mt-6 text-lg
+        "
+        >
           Take a free 30-minute tour of either of our locations to help you
           decide if Klipsan is the right gym for you. You’ll have the
           opportunity to try equipment, observe classes, and get direct answers
           to all of your questions.
         </p>
-        <form action=""></form>
+        <form
+          className="
+                  col-start-[-3] col-end-[14] row-start-[3] row-end-[-2]
+                  flex flex-col justify-start items-start gap-6
+        "
+          action=""
+        >
+          <fieldset>
+            <label htmlFor="">
+              <span>Name</span> <span>(required)</span>
+            </label>
+            <div className="flex gap-3">
+              <div>
+                <div>First Name</div>
+                <input
+                  className="bg-gray-100 border focus:border-2 focus:border-black"
+                  type="text"
+                />
+              </div>
+              <div>
+                <div>Last Name</div>
+                <input
+                  className="bg-gray-100 border focus:border-2 focus:border-black"
+                  type="text"
+                />
+              </div>
+            </div>
+          </fieldset>
+          <div className="flex gap-3 flex-col">
+            <label htmlFor="">
+              <span>Email</span>
+              <span>(required)</span>
+            </label>
+            <input
+              className="bg-gray-100 border focus:border-2 focus:border-black"
+              type="email"
+            />
+          </div>
+          <div className="flex gap-3 flex-col">
+            <label htmlFor="">
+              <span>Date</span>
+              <span>(required)</span>
+            </label>
+            <input
+              className="bg-gray-100 border focus:border-2 focus:border-black"
+              type="date"
+            />
+          </div>
+          <ButtonKlipsan theme="light">Submit</ButtonKlipsan>
+        </form>
       </section>
       {/* section 5 */}
       <section
