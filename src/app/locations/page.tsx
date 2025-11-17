@@ -29,7 +29,7 @@ export default function LocationsPage() {
   );
 }
 
-export function SimpleMap({ address }: { address: string }) {
+ function SimpleMap({ address }: { address: string }) {
   return (
     <div className="h-[500px] max-w-[50%] w-full rounded-xl overflow-hidden shadow-lg grow-0">
       <iframe
