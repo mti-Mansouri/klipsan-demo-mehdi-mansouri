@@ -336,7 +336,7 @@ export default function Home() {
   overflow-hidden
   grid
   grid-cols-[repeat(6,1fr)]
-  grid-rows-[1]
+  grid-rows-1
   "
       >
         <section
