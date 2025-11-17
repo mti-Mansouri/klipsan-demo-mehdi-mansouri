@@ -9,8 +9,7 @@ export default function ButtonKlipsan({
   children,
   onClick,
 }: ButtonProps) {
-  const baseClasses =
-    "py-2 px-[15px]  font-medium transitions-color captalize";
+  const baseClasses = "py-3 px-[30px]  font-medium transitions-color uppercase";
   const themeClasses: Record<ButtonThemes, string> = {
     dark: "bg-transparent text-white border-2 border-white rounded-full px-10 py-2 uppercase tracking-wider font-normal  hover:bg-white hover:text-black",
     light:
