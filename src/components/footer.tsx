@@ -41,11 +41,11 @@ export default function Footer() {
                 <Link href={"/terms-and-conditions"}>Terms and Conditions</Link>
               </li>
               <li className="underline underline-offset-3">
-                <Link href={"/"}>Private Policy</Link>{" "}
+                <Link href={"/privacy-policy"}>Private Policy</Link>{" "}
               </li>
               <li className="underline underline-offset-3">
                 {" "}
-                <Link href={"/"}>FAQs</Link>
+                <Link href={"/faqs"}>FAQs</Link>
               </li>
             </ul>
           </section>
