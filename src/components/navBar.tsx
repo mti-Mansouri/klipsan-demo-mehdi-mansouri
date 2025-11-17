@@ -15,6 +15,7 @@ type Path =
   | "/shopping-cart"
   | "/terms-and-conditions"
   |"/privacy-policy"
+  |"/faqs"
   | "/join";
 type ColorTheme = "dark" | "light";
 
@@ -29,7 +30,8 @@ const navTheme: Record<Path, ColorTheme> = {
   "/shopping-cart": "light",
   "/join": "dark",
   "/terms-and-conditions":"light",
-  "/privacy-policy":"light"
+  "/privacy-policy":"light",
+  "/faqs":"light"
 };
 
 export default function NavBar() {
