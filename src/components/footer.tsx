@@ -38,7 +38,7 @@ export default function Footer() {
             </p>
             <ul>
               <li className="underline underline-offset-3 ">
-                <Link href={"/"}>Terms and Conditions</Link>
+                <Link href={"/terms-and-conditions"}>Terms and Conditions</Link>
               </li>
               <li className="underline underline-offset-3">
                 <Link href={"/"}>Private Policy</Link>{" "}

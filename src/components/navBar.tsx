@@ -13,6 +13,7 @@ type Path =
   | "/classes-overview"
   | "/classes"
   | "/shopping-cart"
+  | "/terms-and-conditions"
   | "/join";
 type ColorTheme = "dark" | "light";
 
@@ -26,6 +27,7 @@ const navTheme: Record<Path, ColorTheme> = {
   "/classes-overview": "dark",
   "/shopping-cart": "light",
   "/join": "dark",
+  "/terms-and-conditions":"light"
 };
 
 export default function NavBar() {
