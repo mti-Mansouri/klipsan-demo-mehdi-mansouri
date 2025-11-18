@@ -19,7 +19,7 @@ export default function ButtonKlipsan({
   return (
     <button
       onClick={onClick}
-      className={`${baseClasses}  ${themeClasses[theme]}`}
+      className={`${baseClasses}  ${themeClasses[theme]} cursor-pointer`}
     >
       {children}
     </button>

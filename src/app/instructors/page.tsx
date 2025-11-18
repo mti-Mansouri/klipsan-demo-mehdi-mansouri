@@ -101,16 +101,21 @@ export default function InstructorsPAge() {
       <section className="w-full h-screen my-[50px] flex justify-between">
         <section className="flex flex-col items-start gap-8">
           {/* left text */}
-          <p className="font-bebas font-bold uppercase text-[40px]">
-            INTERESTED IN PERSONAL TRAINING?
-          </p>
-          <p>
+          <div>
+            <p className="font-bebas font-bold uppercase text-[40px]">
+              INTERESTED IN PERSONAL
+            </p>
+            <p className="font-bebas font-bold uppercase text-[40px]"> TRAINING?</p>
+          </div>
+          <p  className="max-w-[50%] text-lg">
             Share your personal training goals, any questions you have, or
             anything you’d like to learn more about—we’ll be in touch soon to
             chat next steps.
           </p>
         </section>
-        <form action="">
+        <form  
+        className="flex flex-col items-start gap-3"
+        action="">
           {/* right form */}
           <fieldset className="w-full">
             <label className="" htmlFor="">
@@ -146,52 +151,77 @@ export default function InstructorsPAge() {
               type="email"
             />
           </div>
-          <div>
+          <div className="flex flex-col items-start gap-3 ">
             <label htmlFor="">
-              <span>Email</span>
+              <span>Training goals</span>
               <span className="text-gray-600 ml-2">(required)</span>
             </label>
-            <span className="text-gray-600">Select all that apply</span>
+            <span className="text-gray-600 block">Select all that apply</span>
             <div>
-              <input type="checkbox" />
+              <input
+                               className="bg-gray-50 border mt-2     p-2
+                  focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2
+                  "
+              type="checkbox" />
               <label htmlFor="">
                 {" "}
-                <span>Weight loss</span>
+                
+                <span className="ml-2">Weight loss</span>
               </label>
             </div>
             <div>
-              <input type="checkbox" />
+              <input
+                                             className="bg-gray-50 border mt-2     p-2
+                  focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2
+                  "
+              type="checkbox" />
               <label htmlFor="">
                 {" "}
-                <span>Build muscle</span>
+                <span className="ml-2">Build muscle</span>
               </label>
             </div>
             <div>
-              <input type="checkbox" />
+              <input
+                                             className="bg-gray-50 border mt-2     p-2
+                  focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2
+                  "
+              type="checkbox" />
               <label htmlFor="">
                 {" "}
-                <span>Improve endurance</span>
+                <span className="ml-2">Improve endurance</span>
               </label>
             </div>
             <div>
-              <input type="checkbox" />
+              <input 
+                                             className="bg-gray-50 border mt-2     p-2
+                  focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2
+                  "
+              type="checkbox" />
               <label htmlFor="">
                 {" "}
-                <span>General fitness</span>
+                <span className="ml-2">General fitness</span>
               </label>
             </div>
             <div>
-              <input type="checkbox" />
+              <input
+                                             className="bg-gray-50 border mt-2     p-2
+                  focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2
+                  "
+              type="checkbox" />
               <label htmlFor="">
                 {" "}
-                <span>Injury/rehab</span>
+                <span className="ml-2">Injury/rehab</span>
               </label>
             </div>
             <div>
-              <input type="checkbox" />
+              <input 
+                                             className="bg-gray-50 border mt-2     p-2
+                  focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2
+                  "
+              type="checkbox" />
               <label htmlFor="">
                 {" "}
-                <span>Not sure yet</span>
+                <span className="ml-2">Not sure yet</span>
               </label>
             </div>
           </div>
@@ -200,7 +230,11 @@ export default function InstructorsPAge() {
               <span>How often do you want to train per week?</span>
               <span className="text-gray-600 ml-2">(required)</span>
             </label>
-            <select name="" id="">
+            <select
+                   className="bg-gray-50 border mt-2  w-full  h-[40px] p-2 
+                  focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2
+                  "
+            name="" id="">
               <option value="Not sure yet">Not sure yet</option>
               <option value="1x/week (just getting started)">
                 1x/week (just getting started)
