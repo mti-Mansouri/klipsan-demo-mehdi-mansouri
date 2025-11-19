@@ -31,7 +31,7 @@ export default function Home() {
        col-start-1 col-end-[-1]
   row-start-1 row-end-[-1]
   z-5
-  bg-[radial-gradient(circle,transparent_50%,rgba(0,0,0,0.3)_100%)]
+  bg-[rgba(0,0,0,0.3))]
    "
         ></div>
         <p

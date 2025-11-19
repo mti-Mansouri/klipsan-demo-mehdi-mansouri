@@ -59,13 +59,13 @@ export default function ClassesOverviewPage() {
                 <p className="uppercase mb-7">
                   TAUGHT BY
                   <Link className="border-b mx-1" href={item.url}>
-                    {item.instructor[1]}
+                    {item.instructor[0]}
                   </Link>
                   {item.instructor.length > 1 && (
                     <>
                       AND
                       <Link className="border-b mx-1" href={item.url}>
-                        {"" + item.instructor[2]}
+                        {"" + item.instructor[1]}
                       </Link>
                     </>
                   )}
