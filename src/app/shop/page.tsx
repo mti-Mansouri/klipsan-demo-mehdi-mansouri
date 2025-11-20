@@ -6,7 +6,7 @@ export default function ShopPage() {
     return <main className="min-h-screen w-screen  bg-white pt-[120px] pb-20">
         {/* product  */}
         <section
-        className="px-[5%] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10"
+        className="px-[4%] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-15"
         >
             {
                 PRODUCTS.map((product,index)=>(
