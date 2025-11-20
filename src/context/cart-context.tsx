@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import {
   createContext,
   ReactNode,
@@ -14,6 +14,7 @@ export type CartItem = {
   price: number;
   quantity: number;
   image?: string;
+  option?: string;
 };
 type CartContextType = {
   items: CartItem[];
@@ -21,7 +22,8 @@ type CartContextType = {
   totalPrice: number;
   addItem: (
     item: Omit<CartItem, "quantity">,
-    quantity?: number
+    quantity?: number,
+    newoption?: string
   ) => Promise<void>;
   removeItem: (id: string) => void;
   updateQuantity: (id: string, quantity: number) => void;
@@ -35,19 +37,21 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const [isAdding, setIsAdding] = useState(false);
 
   // load from local storage on mount
-  useEffect(()=>{
+  useEffect(() => {
     const savedCart = localStorage.getItem("klipsan-cart");
-    if (savedCart){
-      try{
+    if (savedCart) {
+      try {
         setItems(JSON.parse(savedCart));
-      }catch(err){
+      } catch (err) {
         console.error(err);
       }
     }
-  },[])
+  }, []);
   // save to local storage on change
   useEffect(() => {
-    localStorage.setItem("klipsan-cart", JSON.stringify(items));
+    if (items.length > 0) {
+      localStorage.setItem("klipsan-cart", JSON.stringify(items));
+    }
     // TODO : trigger supabase
   }, [items]);
 
@@ -62,20 +66,37 @@ export function CartProvider({ children }: { children: ReactNode }) {
   );
 
   // actions
-  const addItem = async (product: Omit<CartItem, "quantity">, quantity = 1) => {
+  const addItem = async (
+    product: Omit<CartItem, "quantity" | "option">,
+    quantity = 1,
+    newoption?: string
+  ) => {
     setIsAdding(true);
 
     // simulate network - later supabasw comes here
     await new Promise((resolve) => setTimeout(resolve, 800));
 
     setItems((prevItems) => {
-      const existingItem = prevItems.find((i) => i.id === product.id);
+      const existingItem = prevItems.find((i) => i.id === product.id && i.option === newoption);
+
       if (existingItem) {
-        return prevItems.map((i) =>
-          i.id === product.id ? { ...i, quantity: i.quantity + quantity } : i
-        );
+        // const opt = existingItem["option"];
+        // if (opt) {
+        //   return prevItems.map((i) =>
+        //     i.id === product.id
+        //       ? { ...i, quantity: i.quantity + quantity, option: newoption }
+        //       : i
+        //   );
+        // } else {
+        //   return prevItems.map((i) =>
+        //     i.id === product.id ? { ...i, quantity: i.quantity + quantity } : i
+        //   );
+        // }
+          return prevItems.map((i) =>
+            i.id === product.id ? { ...i, quantity: i.quantity + quantity, option: newoption} : i
+          );
       }
-      return [...prevItems, { ...product, quantity }];
+      return [...prevItems, { ...product, quantity, option: newoption}];
     });
 
     setIsAdding(false);
@@ -114,14 +135,12 @@ export function CartProvider({ children }: { children: ReactNode }) {
   );
 }
 
-
 // Custom hook
-export function useCart(){
+export function useCart() {
   const context = useContext(CartContext);
-  if( context === undefined){
+  if (context === undefined) {
     throw new Error("useCart must be used within a CartProvider");
   }
 
   return context;
-  
 }

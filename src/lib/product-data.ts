@@ -43,7 +43,7 @@ export const PRODUCTS: Product[] = [
         {
         name:"Endurance T-Shirt",
         image : "/Images/tee-shirt-crew-klipsan.png",
-        slug:"fresh-pressed-juices",
+        slug:"sweatshirt",
         id: "prod_03",
         price:30.00,
         
@@ -86,7 +86,7 @@ export const PRODUCTS: Product[] = [
         {
         name:"Klipsan T-Shirt",
         image : "/Images/tee-shirt-crew.webp",
-        slug:"fresh-pressed-juices",
+        slug:"t-shirt",
         id: "prod_06",
         price:25.00,
         

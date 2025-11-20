@@ -17,6 +17,7 @@ type Path =
   | "/terms-and-conditions"
   |"/privacy-policy"
   |"/faqs"
+
   | "/join";
 type ColorTheme = "dark" | "light";
 
@@ -38,7 +39,11 @@ const navTheme: Record<Path, ColorTheme> = {
 export default function NavBar() {
   const {totalItem} = useCart();
   const currentPAth = usePathname();
-  const theme = (navTheme[currentPAth as Path] ?? "dark") as ColorTheme;
+  let theme = (navTheme[currentPAth as Path] ?? "dark") as ColorTheme;
+  if (currentPAth.concat("/shop/p")){
+    // console.log("it works")
+    theme = "light" as ColorTheme;
+  }
 
   const colorTheme: Record<ColorTheme, string> = {
     dark: "text-white bg-black",

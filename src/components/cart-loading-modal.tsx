@@ -21,11 +21,12 @@ export default function CartLoadingModal() {
             >
                 {/* spinner */}
                 <div className="w-12 h-12 border-4 border-gray-200 border-t-black rounded-full animate-spin">
-                    <p className="font-bebas font-bold text-3xl text-black tracking-wide uppercase mt-4">Adding to cart...</p>
+
+                </div>
+                                    <p className="font-bebas font-bold text-3xl text-black tracking-wide uppercase mt-4">Adding to cart...</p>
                     <p className="text-sm text-gray-500">
           Please wait while we update your cart.
         </p>
-                </div>
             </div>
         </div>
     )
