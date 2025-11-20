@@ -4,6 +4,7 @@ import NavBar from "@/components/navBar";
 import Footer from "@/components/footer";
 import localfont from "next/font/local";
 import { CartProvider } from "@/context/cart-context";
+import CartLoadingModal from "@/components/cart-loading-modal";
 // import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -48,6 +49,7 @@ export default function RootLayout({
           <NavBar />
           {children}
           <Footer />
+          <CartLoadingModal />
         </CartProvider>
         <Analytics />
       </body>

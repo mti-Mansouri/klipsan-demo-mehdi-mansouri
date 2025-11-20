@@ -66,7 +66,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     setIsAdding(true);
 
     // simulate network - later supabasw comes here
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 800));
 
     setItems((prevItems) => {
       const existingItem = prevItems.find((i) => i.id === product.id);
