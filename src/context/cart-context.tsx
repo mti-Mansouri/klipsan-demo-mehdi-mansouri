@@ -101,7 +101,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       return;
     }
     setItems((prevItems) =>
-      prevItems.map((i) => (i.id === id ? { ...i, quantity: newQuantity } : i))
+      prevItems.map((i) => (i.id === id && i.option === option ? { ...i, quantity: newQuantity } : i))
     );
   };
 
