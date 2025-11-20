@@ -1,5 +1,5 @@
+"use client"
 import {
-  Children,
   createContext,
   ReactNode,
   useContext,
@@ -76,8 +76,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
         );
       }
       return [...prevItems, { ...product, quantity }];
-      setIsAdding(false);
     });
+
+    setIsAdding(false);
   };
   // ---------
   const removeItem = (id: string) => {
@@ -115,12 +116,12 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
 
 // Custom hook
-export function useCArt(){
+export function useCart(){
   const context = useContext(CartContext);
   if( context === undefined){
     throw new Error("useCart must be used within a CartProvider");
+  }
 
   return context;
   
-  }
 }
