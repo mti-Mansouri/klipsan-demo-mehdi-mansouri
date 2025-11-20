@@ -38,6 +38,7 @@ export default function ProductDetailPage() {
     if (isAdding) {
       return;
     }
+    setQuantity( prev=> prev+1)
     await addItem(
       {
         id: product?.id,
