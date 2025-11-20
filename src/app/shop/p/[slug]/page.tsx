@@ -38,7 +38,7 @@ export default function ProductDetailPage() {
     if (isAdding) {
       return;
     }
-    setQuantity( prev=> prev+1)
+  
     await addItem(
       {
         id: product?.id,
@@ -101,8 +101,12 @@ export default function ProductDetailPage() {
             className="bg-white text-black border mt-2  w-1/6  h-[60px] p-4  font-bold 
                   focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2
                   "
-            defaultValue={quantity}
+            value={quantity}
             type="number"
+            onChange={(e) => {
+  const value = parseInt(e.target.value);
+  setQuantity(isNaN(value) ? 1 : value);
+}}
           />
         )}
         <div className="">
