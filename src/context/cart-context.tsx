@@ -25,8 +25,8 @@ type CartContextType = {
     quantity?: number,
     newoption?: string
   ) => Promise<void>;
-  removeItem: (id: string) => void;
-  updateQuantity: (id: string, quantity: number) => void;
+  removeItem: (id: string,option:string) => void;
+  updateQuantity: (id: string, quantity: number,option:string) => void;
   isAdding: boolean;
 };
 
@@ -80,20 +80,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
       const existingItem = prevItems.find((i) => i.id === product.id && i.option === newoption);
 
       if (existingItem) {
-        // const opt = existingItem["option"];
-        // if (opt) {
-        //   return prevItems.map((i) =>
-        //     i.id === product.id
-        //       ? { ...i, quantity: i.quantity + quantity, option: newoption }
-        //       : i
-        //   );
-        // } else {
-        //   return prevItems.map((i) =>
-        //     i.id === product.id ? { ...i, quantity: i.quantity + quantity } : i
-        //   );
-        // }
+  
           return prevItems.map((i) =>
-            i.id === product.id ? { ...i, quantity: i.quantity + quantity, option: newoption} : i
+            (i.id === product.id && i.option === newoption) ? { ...i, quantity: i.quantity + quantity, option: newoption} : i
           );
       }
       return [...prevItems, { ...product, quantity, option: newoption}];
@@ -102,13 +91,13 @@ export function CartProvider({ children }: { children: ReactNode }) {
     setIsAdding(false);
   };
   // ---------
-  const removeItem = (id: string) => {
-    setItems((prevItem) => prevItem.filter((i) => i.id !== id));
+  const removeItem = (id: string , option:string) => {
+    setItems((prevItem) => prevItem.filter((i) => !(i.id === id && i.option === option) ));
   };
 
-  const updateQuantity = (id: string, newQuantity: number) => {
+  const updateQuantity = (id: string, newQuantity: number ,option:string) => {
     if (newQuantity < 1) {
-      removeItem(id);
+      removeItem(id,option);
       return;
     }
     setItems((prevItems) =>
