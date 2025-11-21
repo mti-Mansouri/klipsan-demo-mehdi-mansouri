@@ -78,7 +78,9 @@ export default function ShoppingCartPage() {
       )}
       {
         items.length > 0 ? 
-        <ButtonKlipsan theme="light">Checkout</ButtonKlipsan>
+        <Link href={"/checkout"}>
+          <ButtonKlipsan theme="light">Checkout</ButtonKlipsan>
+        </Link>
         : <Link href={"/shop"}><ButtonKlipsan theme="light">Continue Shopping</ButtonKlipsan></Link>
       }
     </main>
