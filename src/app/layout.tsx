@@ -5,6 +5,7 @@ import Footer from "@/components/footer";
 import localfont from "next/font/local";
 import { CartProvider } from "@/context/cart-context";
 import CartLoadingModal from "@/components/cart-loading-modal";
+import { BackendStatusProvider } from "@/context/backend-status-context";
 // import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -45,12 +46,15 @@ export default function RootLayout({
       <body
       // className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <CartProvider>
+        <BackendStatusProvider>
+
+                  <CartProvider>
           <NavBar />
           {children}
           <Footer />
           <CartLoadingModal />
         </CartProvider>
+        </BackendStatusProvider>
         <Analytics />
       </body>
     </html>
