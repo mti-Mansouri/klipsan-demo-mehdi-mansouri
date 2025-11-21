@@ -39,16 +39,20 @@ const navTheme: Record<Path, ColorTheme> = {
 export default function NavBar() {
   const {totalItem} = useCart();
   const currentPAth = usePathname();
-  let theme = (navTheme[currentPAth as Path] ?? "dark") as ColorTheme;
-  if (currentPAth.concat("/shop/p")){
-    // console.log("it works")
-    theme = "light" as ColorTheme;
-  }
+
+ 
 
   const colorTheme: Record<ColorTheme, string> = {
     dark: "text-white bg-black",
     light: "text-black bg-white",
   };
+  let theme = (navTheme[currentPAth as Path] ?? "dark") as ColorTheme;
+
+   if (currentPAth.startsWith("/shop/p")){
+    // console.log("it works")
+    theme = "light" as ColorTheme;
+  }
+
   const [scrolled, setScrolled] = useState(false);
   useEffect(() => {
     const onScroll = () => {
