@@ -17,7 +17,7 @@ type Path =
   | "/terms-and-conditions"
   |"/privacy-policy"
   |"/faqs"
-
+  | "checkout"
   | "/join";
 type ColorTheme = "dark" | "light";
 
@@ -33,7 +33,8 @@ const navTheme: Record<Path, ColorTheme> = {
   "/join": "dark",
   "/terms-and-conditions":"light",
   "/privacy-policy":"light",
-  "/faqs":"light"
+  "/faqs":"light",
+  "checkout":"dark"
 };
 
 export default function NavBar() {
@@ -76,7 +77,7 @@ export default function NavBar() {
 
   // ----------------------------
   return (
-    <nav className={` ${baseClasses}  `}>
+    <nav className={` ${baseClasses}  ${currentPAth === "checkout" && "hidden"} `}>
       <section className="">
         <ul className="list-none flex justify-between items-center gap-7 text-[18px]">
           <li className="font-Bebas Neue font-bold text-4xl">
