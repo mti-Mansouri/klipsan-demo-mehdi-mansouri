@@ -15,8 +15,8 @@ type Path =
   | "/classes"
   | "/shopping-cart"
   | "/terms-and-conditions"
-  |"/privacy-policy"
-  |"/faqs"
+  | "/privacy-policy"
+  | "/faqs"
   | "checkout"
   | "/join";
 type ColorTheme = "dark" | "light";
@@ -31,17 +31,15 @@ const navTheme: Record<Path, ColorTheme> = {
   "/classes-overview": "dark",
   "/shopping-cart": "light",
   "/join": "dark",
-  "/terms-and-conditions":"light",
-  "/privacy-policy":"light",
-  "/faqs":"light",
-  "checkout":"dark"
+  "/terms-and-conditions": "light",
+  "/privacy-policy": "light",
+  "/faqs": "light",
+  checkout: "dark",
 };
 
 export default function NavBar() {
-  const {totalItem} = useCart();
+  const { totalItem } = useCart();
   const currentPAth = usePathname();
-
- 
 
   const colorTheme: Record<ColorTheme, string> = {
     dark: "text-white bg-black",
@@ -49,7 +47,7 @@ export default function NavBar() {
   };
   let theme = (navTheme[currentPAth as Path] ?? "dark") as ColorTheme;
 
-   if (currentPAth.startsWith("/shop/p")){
+  if (currentPAth.startsWith("/shop/p")) {
     // console.log("it works")
     theme = "light" as ColorTheme;
   }
@@ -77,39 +75,31 @@ export default function NavBar() {
 
   // ----------------------------
   return (
-    <nav className={` ${baseClasses}  ${currentPAth === "checkout" && "hidden"} `}>
+    <nav
+      className={` ${baseClasses}  ${currentPAth === "/checkout" && "hidden"} `}
+    >
       <section className="">
         <ul className="list-none flex justify-between items-center gap-7 text-[18px]">
           <li className="font-Bebas Neue font-bold text-4xl">
             <Link href={"/"}>KLIPSAN</Link>
           </li>
-          <li 
-                      className={
-                currentPAth === "/book-a-class" ||
-                currentPAth === "/classes" ||
-                currentPAth === "/classes-overview"
-                  ? "border-b"
-                  : ""
-              }
+          <li
+            className={
+              currentPAth === "/book-a-class" ||
+              currentPAth === "/classes" ||
+              currentPAth === "/classes-overview"
+                ? "border-b"
+                : ""
+            }
           >
-            {/* <Link
-              className={
-                currentPAth === "/book-a-class" ||
-                currentPAth === "/classes" ||
-                currentPAth === "/classes-overview"
-                  ? "border-b"
-                  : ""
-              }
-              href="/classes"
-            >
-              Classes
-            </Link> */}
-            <DropDownMenu title="Classes" theme={theme} items={
-              [
-                {name: "Classes Overview", href: "/classes-overview"},
-                {name: "Book a Class", href: "/book-a-class"}
-              ]
-            } />
+            <DropDownMenu
+              title="Classes"
+              theme={theme}
+              items={[
+                { name: "Classes Overview", href: "/classes-overview" },
+                { name: "Book a Class", href: "/book-a-class" },
+              ]}
+            />
           </li>
           <li>
             <Link
@@ -142,7 +132,6 @@ export default function NavBar() {
       <section className="">
         <ul className="list-non flex justify-between items-center gap-10 text-[14px]">
           <li className="flex justify-center items-center gap-2">
-            
             <Link href={"/shopping-cart"}>
               <svg
                 fill="currentColor"
@@ -157,7 +146,9 @@ export default function NavBar() {
           </li>
           <li>
             <Link href={"/join"}>
-            <ButtonKlipsan theme={theme==="dark"?"dark":"light"}>Join OUR GYM</ButtonKlipsan>
+              <ButtonKlipsan theme={theme === "dark" ? "dark" : "light"}>
+                Join OUR GYM
+              </ButtonKlipsan>
             </Link>
           </li>
         </ul>
