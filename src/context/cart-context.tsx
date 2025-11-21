@@ -23,10 +23,10 @@ type CartContextType = {
   addItem: (
     item: Omit<CartItem, "quantity">,
     quantity?: number,
-    newoption?: string
+    newoption?: string | undefined
   ) => Promise<void>;
-  removeItem: (id: string,option:string) => void;
-  updateQuantity: (id: string, quantity: number,option:string) => void;
+  removeItem: (id: string, option: string | undefined) => void;
+  updateQuantity: (id: string, quantity: number, option: string | undefined) => void;
   isAdding: boolean;
 };
 
@@ -49,9 +49,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
   }, []);
   // save to local storage on change
   useEffect(() => {
-    if (items.length > 0) {
+    
       localStorage.setItem("klipsan-cart", JSON.stringify(items));
-    }
+    
     // TODO : trigger supabase
   }, [items]);
 
@@ -94,14 +94,14 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const removeItem = (id: string , option:string | undefined) => {
     setItems((prevItem) => prevItem.filter((i) => !(i.id === id && i.option === option) ));
   };
-
+  // ---------
   const updateQuantity = (id: string, newQuantity: number ,option:string | undefined) => {
     if (newQuantity < 1) {
       removeItem(id,option);
       return;
     }
     setItems((prevItems) =>
-      prevItems.map((i) => (i.id === id && i.option === option ? { ...i, quantity: newQuantity } : i))
+      prevItems.map((i:CartItem) => (i.id === id && i.option === option ? { ...i, quantity: newQuantity } : i))
     );
   };
 
