@@ -69,7 +69,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const addItem = async (
     product: Omit<CartItem, "quantity" | "option">,
     quantity = 1,
-    newoption?: string
+    newoption:string | undefined
   ) => {
     setIsAdding(true);
 
@@ -91,11 +91,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
     setIsAdding(false);
   };
   // ---------
-  const removeItem = (id: string , option:string) => {
+  const removeItem = (id: string , option:string | undefined) => {
     setItems((prevItem) => prevItem.filter((i) => !(i.id === id && i.option === option) ));
   };
 
-  const updateQuantity = (id: string, newQuantity: number ,option:string) => {
+  const updateQuantity = (id: string, newQuantity: number ,option:string | undefined) => {
     if (newQuantity < 1) {
       removeItem(id,option);
       return;
