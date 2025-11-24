@@ -110,10 +110,10 @@ export default function InstructorsPage() {
   ];
 
   return (
-    <main className="bg-white w-full min-h-screen flex flex-col overflow-x-hidden pt-[90px]">
+    <main className="bg-white w-full min-h-screen flex flex-col overflow-x-hidden pt-[90px] px-10">
       
       {/* --- INSTRUCTORS GRID --- */}
-      <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full h-auto md:px-[30px] md:gap-[30px]">
+      <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 w-full h-auto">
         {instructors.map((instructor, idx) => (
           <figure key={idx} className="relative w-full h-[50vh] md:h-[75vh] group overflow-hidden">
             <img
@@ -124,18 +124,21 @@ export default function InstructorsPage() {
             {/* Overlay Gradient for readability */}
             <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors" />
             
-            <figcaption className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col gap-3 text-center text-white w-full px-4">
-              <Reveal delay={idx * 100}>
-                <div className="flex flex-col items-center justify-center">
-                  <strong className="text-[30px] md:text-[40px] font-bebas leading-none">
-                    {instructor.name}
-                  </strong>
-                  <span className="text-sm md:text-base tracking-widest font-medium ">
-                    {instructor.role}
-                  </span>
-                </div>
-              </Reveal>
-            </figcaption>
+<figcaption className="absolute inset-0 flex items-center justify-center text-center text-white px-4">
+  <div className="flex flex-col items-center justify-center w-full">
+    <Reveal delay={idx * 100}>
+      <div>
+        <strong className="text-[30px] md:text-[40px] font-bebas leading-none">
+          {instructor.name}
+        </strong>
+        <span className="text-sm md:text-base tracking-widest font-medium block">
+          {instructor.role}
+        </span>
+      </div>
+    </Reveal>
+  </div>
+</figcaption>
+
           </figure>
         ))}
       </section>
@@ -246,14 +249,14 @@ export default function InstructorsPage() {
                   {goalOptions.map((goal) => (
                     <div key={goal} className="flex items-center">
                       <input
-                        id={`goal-${goal}`}
+                        id={`goal-${goal}`} // ID ensures label click works
                         type="checkbox"
                         value={goal}
                         checked={formData.goals.includes(goal)}
                         onChange={handleCheckboxChange}
-                        className="bg-gray-50 border w-5 h-5 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 accent-black"
+                        className="bg-gray-50 border w-5 h-5 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 accent-black cursor-pointer"
                       />
-                      <label htmlFor={`goal-${goal}`} className="ml-3 text-gray-700 cursor-pointer">
+                      <label htmlFor={`goal-${goal}`} className="ml-3 text-gray-700 cursor-pointer select-none">
                         {goal}
                       </label>
                     </div>
