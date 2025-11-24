@@ -7,15 +7,18 @@ import {
   ReactNode,
 } from "react";
 import { useRouter } from "next/navigation";
-import { apiPost } from "@/lib/api"; 
-
+import { apiPost } from "@/lib/api";
 
 type LoginData = { email: string; password: string };
 type RegisterData = { firstname: string; lastname: string; email: string; password: string };
 
 type User = {
-  sub: string; // email from JWT
-  exp: number; // expiry
+  sub: string;
+  exp: number;
+};
+
+type AuthResponse = {
+  token: string;
 };
 
 type AuthContextType = {
@@ -25,7 +28,7 @@ type AuthContextType = {
   register: (data: RegisterData) => Promise<void>;
   logout: () => void;
   isAuthenticated: boolean;
-  isLoading: boolean; // For showing spinners
+  isLoading: boolean;
   error: string | null;
 };
 
@@ -39,7 +42,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   
   const router = useRouter();
 
-  // Helper to decode JWT
   const parseJwt = (token: string) => {
     try {
       return JSON.parse(atob(token.split(".")[1]));
@@ -47,7 +49,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       return null;
     }
   };
-
 
   useEffect(() => {
     const storedToken = localStorage.getItem("klipsan_token");
@@ -62,48 +63,38 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  // 2. Login Logic
+  const handleAuthSuccess = (newToken: string) => {
+    localStorage.setItem("klipsan_token", newToken);
+    setToken(newToken);
+    setUser(parseJwt(newToken));
+    router.push("/shop");
+  };
+
   const login = async (data: LoginData) => {
     setIsLoading(true);
     setError(null);
     try {
-      
-      const response = await apiPost("/auth/authenticate", data);
-      
-      
-      const newToken = response.token;
-      localStorage.setItem("klipsan_token", newToken);
-      setToken(newToken);
-      setUser(parseJwt(newToken));
-      
-      // Redirect
-      router.push("/shop"); // Or back to checkout
-    } catch (err: any) {
-      setError("Invalid email or password.");
+      const response = await apiPost<AuthResponse, LoginData>("/auth/authenticate", data);
+      handleAuthSuccess(response.token);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Invalid email or password.";
+      setError(message);
       console.error(err);
-      throw err; // Re-throw so the UI can handle specific animations if needed
+      throw err;
     } finally {
       setIsLoading(false);
     }
   };
 
-  // 3. Register Logic
   const register = async (data: RegisterData) => {
     setIsLoading(true);
     setError(null);
     try {
-      // Call Java Backend
-      const response = await apiPost("/auth/register", data);
-      
-      // Auto-login after register
-      const newToken = response.token;
-      localStorage.setItem("klipsan_token", newToken);
-      setToken(newToken);
-      setUser(parseJwt(newToken));
-      
-      router.push("/shop");
-    } catch (err: any) {
-      setError("Registration failed. Email might be taken.");
+      const response = await apiPost<AuthResponse, RegisterData>("/auth/register", data);
+      handleAuthSuccess(response.token);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Registration failed.";
+      setError(message);
       throw err;
     } finally {
       setIsLoading(false);
@@ -119,16 +110,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   return (
     <AuthContext.Provider
-      value={{
-        user,
-        token,
-        login,
-        register,
-        logout,
-        isAuthenticated: !!user,
-        isLoading,
-        error,
-      }}
+      value={{ user, token, login, register, logout, isAuthenticated: !!user, isLoading, error }}
     >
       {children}
     </AuthContext.Provider>

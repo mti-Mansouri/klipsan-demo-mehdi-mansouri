@@ -1,17 +1,8 @@
 "use client";
-import {
-  createContext,
-  ReactNode,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-  useRef,
-} from "react";
+import { createContext, ReactNode, useContext, useEffect, useMemo, useState, useRef } from "react";
 import { useAuth } from "@/context/auth-context";
 import { apiGet, apiPost } from "@/lib/api";
 
-// Frontend Cart Item Type
 export type CartItem = {
   id: string;
   name: string;
@@ -19,9 +10,9 @@ export type CartItem = {
   quantity: number;
   image?: string;
   option?: string;
+  synced?: boolean; // New flag to prevent re-syncing
 };
 
-// Backend Response Type (DTO)
 type ServerCartItem = {
   productId: string;
   name: string;
@@ -35,11 +26,7 @@ type CartContextType = {
   items: CartItem[];
   totalItem: number;
   totalPrice: number;
-  addItem: (
-    item: Omit<CartItem, "quantity">,
-    quantity?: number,
-    newoption?: string | undefined
-  ) => Promise<void>;
+  addItem: (item: Omit<CartItem, "quantity">, quantity?: number, newoption?: string) => Promise<void>;
   removeItem: (id: string, option: string | undefined) => void;
   updateQuantity: (id: string, quantity: number, option: string | undefined) => void;
   isAdding: boolean;
@@ -51,12 +38,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
   const [isAdding, setIsAdding] = useState(false);
   const { token, isAuthenticated } = useAuth();
-  
-  // Track if this is the first load to prevent double-fetching
   const isFirstMount = useRef(true);
 
-  // Helper: Map Server Data to Local Format
   const mapServerCartToLocal = (serverData: ServerCartItem[]): CartItem[] => {
+    if (!Array.isArray(serverData)) return [];
     return serverData.map((i) => ({
       id: i.productId,
       name: i.name,
@@ -64,42 +49,26 @@ export function CartProvider({ children }: { children: ReactNode }) {
       quantity: i.quantity,
       image: i.image,
       option: i.productOption,
+      synced: true, // Mark as already on server
     }));
   };
 
-  // 1. Load Local Storage & Handle Initial Fetch (Merge or Fetch)
+  // 1. Initial Load (Storage or Server)
   useEffect(() => {
     const initCart = async () => {
-      // A. Load Local Storage first
+      // Load Local
       const savedCart = localStorage.getItem("klipsan-cart");
-      let localItems: CartItem[] = [];
-      
       if (savedCart) {
-        try {
-          localItems = JSON.parse(savedCart);
-          setItems(localItems);
-        } catch (err) {
-          console.error("Failed to parse local cart", err);
-        }
+        try { setItems(JSON.parse(savedCart)); } catch (e) { console.error(e); }
       }
 
-      // B. If logged in, handle server sync
+      // Load Server (if logged in)
       if (isAuthenticated && token) {
         try {
-          // Case 1: Just logged in (First mount) -> Fetch only
-          // Case 2: Or merge if logic dictates (We'll fetch fresh state)
-          const serverCart = await apiGet("/cart", token) as ServerCartItem[];
-          const mappedCart = mapServerCartToLocal(serverCart);
-          
-          // Simple strategy: Server is truth. If local has items not in server (guest mode),
-          // we will handle that in the separate Merge effect below.
-          // For initial load, let's trust the server fetch if it returns items.
-          if (mappedCart.length > 0) {
-             setItems(mappedCart);
-          }
-        } catch (e) {
-          console.error("Failed to fetch initial cart", e);
-        }
+          const serverCart = await apiGet<ServerCartItem[]>("/cart", token);
+          const mapped = mapServerCartToLocal(serverCart);
+          if (mapped.length > 0) setItems(mapped);
+        } catch (e) { console.error(e); }
       }
     };
 
@@ -109,149 +78,98 @@ export function CartProvider({ children }: { children: ReactNode }) {
     }
   }, [token, isAuthenticated]);
 
-  // 2. Handle Login Event (Merge Guest Cart)
-  // This runs when token changes (e.g. user logs in) AND we have local items to push
+  // 2. Merge Guest Items (Only runs if we have unsynced items)
   useEffect(() => {
-    // Skip on first mount (handled above)
     if (isFirstMount.current) return;
 
-    if (isAuthenticated && token && items.length > 0) {
-      const mergeGuestCart = async () => {
+    const unsyncedItems = items.filter(i => !i.synced);
+
+    if (isAuthenticated && token && unsyncedItems.length > 0) {
+      const merge = async () => {
         try {
-          // Map local items to backend DTO
-          const payload: ServerCartItem[] = items.map((i) => ({
+          const payload = unsyncedItems.map(i => ({
             productId: i.id,
             name: i.name,
             price: i.price,
             quantity: i.quantity,
             image: i.image,
-            productOption: i.option,
+            productOption: i.option
           }));
-
-          const serverCart = await apiPost("/cart/sync", payload, token) as ServerCartItem[];
+          
+          const serverCart = await apiPost<ServerCartItem[], typeof payload>("/cart/sync", payload, token);
           setItems(mapServerCartToLocal(serverCart));
-        } catch (e) {
-          console.error("Merge failed", e);
-        }
+        } catch (e) { console.error("Merge failed", e); }
       };
-      mergeGuestCart();
+      merge();
     }
-  }, [token, isAuthenticated]); 
-  // Note: We don't include 'items' in dep array to avoid loop. 
-  // We only want this to run ONCE when auth state changes to true.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token, isAuthenticated, items]); // Add items to correctly trigger merge
 
-  // 3. Persist to Local Storage
+  // 3. Save to Storage
   useEffect(() => {
-    localStorage.setItem("klipsan-cart", JSON.stringify(items));
-  }, [items]);
-
-  // --- API Helper for background updates ---
-  const pushUpdateToServer = async (productId: string, quantity: number, option?: string) => {
-    if (!isAuthenticated || !token) return;
-
-    try {
-      await apiPost("/cart/update", {
-        productId,
-        productOption: option,
-        quantity,
-      }, token);
-    } catch (error) {
-      console.error("Failed to update server cart:", error);
+    // Only save to storage if the user is a guest.
+    if (!isAuthenticated) {
+      localStorage.setItem("klipsan-cart", JSON.stringify(items));
     }
+  }, [items, isAuthenticated]);
+
+  const pushUpdate = async (id: string, qty: number, opt?: string) => {
+    if (!isAuthenticated || !token) return;
+    try { await apiPost("/cart/update", { productId: id, productOption: opt, quantity: qty }, token); } 
+    catch (e) { console.error(e); }
   };
 
-  // --- Actions ---
-
-  const addItem = async (
-    product: Omit<CartItem, "quantity" | "option">,
-    quantity = 1,
-    newoption?: string | undefined
-  ) => {
+  const addItem = async (product: Omit<CartItem, "quantity" | "option">, quantity = 1, newoption?: string) => {
     setIsAdding(true);
-
-    // 1. Optimistic UI Update
-    setItems((prevItems) => {
-      const existingItem = prevItems.find(
-        (i) => i.id === product.id && i.option === newoption
-      );
-
-      if (existingItem) {
-        const newQuantity = existingItem.quantity + quantity;
-        return prevItems.map((i) =>
-          i.id === product.id && i.option === newoption
-            ? { ...i, quantity: newQuantity }
-            : i
-        );
-      }
-      return [...prevItems, { ...product, quantity, option: newoption }];
+    setItems(prev => {
+        const exists = prev.find(i => i.id === product.id && i.option === newoption);
+        if (exists) {
+            return prev.map(i => i.id === product.id && i.option === newoption 
+                ? { ...i, quantity: i.quantity + quantity, synced: false } 
+                : i
+            );
+        }
+        return [...prev, { ...product, quantity, option: newoption, synced: false }];
     });
 
-    // 2. Sync with Server
+    // If logged in, sync immediately to ensure data safety
     if (isAuthenticated && token) {
+      const payload = {
+        productId: product.id,
+        name: product.name,
+        price: product.price,
+        quantity: quantity,
+        image: product.image,
+        productOption: newoption,
+      };
       try {
-        // We send just this item to the sync endpoint to add it
-        const payload: ServerCartItem[] = [{
-          productId: product.id,
-          name: product.name,
-          price: product.price,
-          quantity: quantity, // Amount to ADD
-          image: product.image,
-          productOption: newoption,
-        }];
-        await apiPost("/cart/sync", payload, token);
-      } catch (e) {
-        console.error("Failed to sync add item", e);
-      }
+        // The server should return the updated cart state.
+        const serverCart = await apiPost<ServerCartItem[], typeof payload[]>("/cart/sync", [payload], token);
+        setItems(mapServerCartToLocal(serverCart));
+      } catch (e) { console.error("Failed to sync item:", e); }
     } else {
-      // Simulate delay for guest experience consistency
-      await new Promise((resolve) => setTimeout(resolve, 500));
+       // For guests, just rely on the optimistic update and local storage.
+       await new Promise(r => setTimeout(r, 500));
     }
-
     setIsAdding(false);
   };
 
   const removeItem = (id: string, option: string | undefined) => {
-    setItems((prevItem) =>
-      prevItem.filter((i) => !(i.id === id && i.option === option))
-    );
-    pushUpdateToServer(id, 0, option);
+    setItems(prev => prev.filter(i => !(i.id === id && i.option === option)));
+    pushUpdate(id, 0, option);
   };
 
-  const updateQuantity = (id: string, newQuantity: number, option: string | undefined) => {
-    if (newQuantity < 1) {
-      removeItem(id, option);
-      return;
-    }
-    setItems((prevItems) =>
-      prevItems.map((i) =>
-        i.id === id && i.option === option ? { ...i, quantity: newQuantity } : i
-      )
-    );
-    pushUpdateToServer(id, newQuantity, option);
+  const updateQuantity = (id: string, qty: number, option: string | undefined) => {
+    if (qty < 1) { removeItem(id, option); return; }
+    setItems(prev => prev.map(i => i.id === id && i.option === option ? { ...i, quantity: qty } : i));
+    pushUpdate(id, qty, option);
   };
 
-  // --- Computed Values ---
-  const totalItem = useMemo(
-    () => items.reduce((sum, item) => sum + item.quantity, 0),
-    [items]
-  );
-  const totalPrice = useMemo(
-    () => items.reduce((sum, item) => sum + item.price * item.quantity, 0),
-    [items]
-  );
+  const totalItem = useMemo(() => items.reduce((sum, i) => sum + i.quantity, 0), [items]);
+  const totalPrice = useMemo(() => items.reduce((sum, i) => sum + (i.price * i.quantity), 0), [items]);
 
   return (
-    <CartContext.Provider
-      value={{
-        items,
-        totalItem,
-        totalPrice,
-        addItem,
-        removeItem,
-        updateQuantity,
-        isAdding,
-      }}
-    >
+    <CartContext.Provider value={{ items, totalItem, totalPrice, addItem, removeItem, updateQuantity, isAdding }}>
       {children}
     </CartContext.Provider>
   );
@@ -259,8 +177,6 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
 export function useCart() {
   const context = useContext(CartContext);
-  if (context === undefined) {
-    throw new Error("useCart must be used within a CartProvider");
-  }
+  if (!context) throw new Error("useCart must be used within a CartProvider");
   return context;
 }

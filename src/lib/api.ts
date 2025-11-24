@@ -11,21 +11,24 @@ const getHeaders = (token?: string | null) => {
 };
 
 const handleResponse = async <T>(res: Response): Promise<T> => {
-  const text = await res.text();
-  
   if (!res.ok) {
-    // LOG THE REAL ERROR
+    const text = await res.text();
     console.error(`API Error (${res.status}):`, text);
     throw new Error(text || `API Error: ${res.status}`);
   }
 
+  // Handle cases with no content in the response body.
+  if (res.status === 204 || res.headers.get("Content-Length") === "0") {
+    return {} as T; // Or null, depending on desired behavior for empty responses
+  }
+
+  const text = await res.text();
   try {
-    return text ? JSON.parse(text) : ({} as T);
+    return JSON.parse(text) as T;
   } catch (err) {
-    // If parsing fails, but the text is just a message, we can't guarantee it matches T.
-    // This part of the logic might need adjustment based on your API's error responses.
-    // For now, we'll throw so the caller knows the expected type wasn't returned.
-    throw new Error(`Failed to parse JSON response: ${text}`);
+    // The response was not valid JSON, which is an error in this strict setup.
+    console.error("Failed to parse JSON response:", text);
+    throw new Error("Invalid JSON response from server.");
   }
 };
 
@@ -36,10 +39,9 @@ export const apiPost = async <T, B>(endpoint: string, body: B, token?: string | 
       headers: getHeaders(token),
       body: JSON.stringify(body),
     });
-    return await handleResponse<T>(res);
+    return handleResponse<T>(res);
   } catch (error) {
-    // Pass the specific message up
-    throw new Error(error instanceof Error ? error.message : "Network Error");
+    throw new Error(error instanceof Error ? error.message : "A network error occurred.");
   }
 };
 
@@ -49,8 +51,8 @@ export const apiGet = async <T>(endpoint: string, token?: string | null): Promis
       method: "GET",
       headers: getHeaders(token),
     });
-    return await handleResponse<T>(res);
+    return handleResponse<T>(res);
   } catch (error) {
-    throw new Error(error instanceof Error ? error.message : "Network Error");
+    throw new Error(error instanceof Error ? error.message : "A network error occurred.");
   }
 };
