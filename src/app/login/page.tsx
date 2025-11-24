@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
 import { useAuth } from "@/context/auth-context";
-import Link from "next/link";
 import { useBackendStatus } from "@/context/backend-status-context";
 
 export default function LoginPage() {
@@ -123,7 +122,7 @@ export default function LoginPage() {
         <div className="text-center text-sm text-gray-600">
           {isLogin ? (
             <>
-              Don't have an account?{" "}
+              {"Don't have an account? "}
               <button onClick={toggleMode} className="underline font-bold text-black hover:text-gray-600 transition-colors">
                 Sign Up
               </button>
