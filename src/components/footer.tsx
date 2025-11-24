@@ -72,7 +72,7 @@ export default function Footer() {
             </ul>
           </section>
         </section>
-        <section className="flex flex-col items-start md:items-end justify-between md:grow-[0.5]">
+        <section className="flex flex-col items-start md:items-end  md:grow-[0.5]">
           <p className="font-bebas font-bold text-[24px] md:text-[30px] pb-4">KLIPSAN</p>
           <div className="flex gap-3">
             <svg
