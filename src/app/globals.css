@@ -33,21 +33,25 @@ body{
 }
 
 @layer utilities {
-  .animate-fade-in {
-    animation: fadeIn 0.3s ease-in-out;
-  }
-  
-  .animate-slide-in {
-    animation: slideIn 0.3s ease-out;
+  .animate-slide-up-fade {
+    animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    opacity: 0; /* Start hidden */
   }
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+@keyframes slideUpFade {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-@keyframes slideIn {
-  from { transform: translateY(-10px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+@layer utilities {
+  .amenity-item {
+    @apply relative pb-6 after:content-['•'] after:absolute after:bottom-1/2 after:left-1/2 after:-translate-x-1/2 after:translate-y-4/3 after:text-white;
+  }
 }

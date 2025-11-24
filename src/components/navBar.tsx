@@ -75,6 +75,7 @@ export default function NavBar() {
 
   const baseClasses = `
     fixed w-full right-0 left-0 z-50 px-4 md:px-[60px] flex justify-between items-center h-[90px] transition-colors duration-300
+    animate-slide-up-fade
     ${!scrolled ? "bg-transparent" : theme === "dark" ? "bg-black" : "bg-white"}
     ${theme === "dark" ? "text-white" : "text-black"}
   `;
@@ -162,6 +163,15 @@ export default function NavBar() {
               </ButtonKlipsan>
             </Link>
           </li>
+          {isAuthenticated && 
+                    <li>
+            
+              <ButtonKlipsan onClick={logout} theme={theme === "dark" ? "dark" : "light"}>
+                log out
+              </ButtonKlipsan>
+           
+          </li>
+          }
         </ul>
       </section>
       {/* mobile habmurger */}

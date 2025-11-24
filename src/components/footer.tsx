@@ -14,7 +14,7 @@ export default function Footer() {
       className=" text-white bg-black
        flex flex-col justify-start items-center
         w-full py-10 md:h-[calc(100vh-200px)] md:py-0
-        
+        animate-slide-up-fade
         "
     >
       <section className="w-[85%] flex flex-col gap-8 border-b-2 border-white/20 pb-10 md:h-[50%] md:justify-center md:pb-0">
