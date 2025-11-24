@@ -79,7 +79,7 @@ export default function ShoppingCartPage() {
         </div>
       )}
       {items.length > 0 ? (
-        <Link  href={"/checkout"}>
+        <Link  href={isAuthenticated ? "/checkout" : "/login"}>
           <ButtonKlipsan theme="light">Checkout</ButtonKlipsan>
         </Link>
       ) : (

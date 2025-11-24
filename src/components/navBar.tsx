@@ -5,6 +5,9 @@ import { useEffect, useState } from "react";
 import ButtonKlipsan from "./button-comonent";
 import DropDownMenu from "./dropDownMenu";
 import { useCart } from "@/context/cart-context";
+import { useAuth } from "@/context/auth-context";
+
+import MobileMenu from "./mobile-menu";
 type Path =
   | "/"
   | "/instructors"
@@ -40,6 +43,10 @@ const navTheme: Record<Path, ColorTheme> = {
 export default function NavBar() {
   const { totalItem } = useCart();
   const currentPAth = usePathname();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { isAuthenticated, logout } = useAuth();
+
+
 
   const colorTheme: Record<ColorTheme, string> = {
     dark: "text-white bg-black",
@@ -67,22 +74,23 @@ export default function NavBar() {
   }, []);
 
   const baseClasses = `
-  fixed w-full right-0 left-0 z-50 px-[60px] flex justify-between items-center h-[90px]
-  
-  ${!scrolled ? "bg-transparent" : theme === "dark" ? "bg-black" : "bg-white"}
-  ${theme === "dark" ? "text-white" : "text-black"}
-`;
+    fixed w-full right-0 left-0 z-50 px-4 md:px-[60px] flex justify-between items-center h-[90px] transition-colors duration-300
+    ${!scrolled ? "bg-transparent" : theme === "dark" ? "bg-black" : "bg-white"}
+    ${theme === "dark" ? "text-white" : "text-black"}
+  `;
 
   // ----------------------------
   return (
+<>
     <nav
       className={` ${baseClasses}  ${currentPAth === "/checkout" && "hidden"} `}
     >
-      <section className="">
-        <ul className="list-none flex justify-between items-center gap-7 text-[18px]">
-          <li className="font-Bebas Neue font-bold text-4xl">
-            <Link href={"/"}>KLIPSAN</Link>
-          </li>
+       <Link href={"/"} className="font-Bebas Neue font-bold text-3xl md:text-4xl z-50">
+            KLIPSAN
+        </Link>
+      <section className="hidden md:block md:flex-1 ">
+        <ul className="list-none flex justify-start ml-7  items-center gap-7 text-[18px]">
+
           <li
             className={
               currentPAth === "/book-a-class" ||
@@ -129,7 +137,10 @@ export default function NavBar() {
           </li>
         </ul>
       </section>
-      <section className="">
+
+
+      {/* desktop actions */}
+      <section className="hidden md:block">
         <ul className="list-non flex justify-between items-center gap-10 text-[14px]">
           <li className="flex justify-center items-center gap-2">
             <Link href={"/shopping-cart"}>
@@ -153,6 +164,20 @@ export default function NavBar() {
           </li>
         </ul>
       </section>
+      {/* mobile habmurger */}
+      <button 
+          className="md:hidden p-2"
+          onClick={() => setIsMobileMenuOpen(true)}
+        >
+           {/* Simple 3-line Icon */}
+           <div className={`w-6 h-0.5 mb-1.5 ${theme === 'dark' ? 'bg-white' : 'bg-black'}`}></div>
+           <div className={`w-6 h-0.5 mb-1.5 ${theme === 'dark' ? 'bg-white' : 'bg-black'}`}></div>
+           <div className={`w-6 h-0.5 ${theme === 'dark' ? 'bg-white' : 'bg-black'}`}></div>
+        </button>
     </nav>
+          <MobileMenu isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)} />
+    
+
+</>
   );
 }
