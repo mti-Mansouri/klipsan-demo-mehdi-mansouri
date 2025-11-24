@@ -7,21 +7,26 @@ import {
   ReactNode,
 } from "react";
 import { useRouter } from "next/navigation";
+import { apiPost } from "@/lib/api"; 
 
-// Define the shape of a User (matches your Java JWT claims)
+
+type LoginData = { email: string; password: string };
+type RegisterData = { firstname: string; lastname: string; email: string; password: string };
+
 type User = {
-  sub: string; // email
-  role?: string;
-  iat?: number;
-  exp?: number;
+  sub: string; // email from JWT
+  exp: number; // expiry
 };
 
 type AuthContextType = {
   user: User | null;
   token: string | null;
-  login: (token: string) => void;
+  login: (data: LoginData) => Promise<void>;
+  register: (data: RegisterData) => Promise<void>;
   logout: () => void;
   isAuthenticated: boolean;
+  isLoading: boolean; // For showing spinners
+  error: string | null;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -29,9 +34,12 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  
   const router = useRouter();
 
-  // Helper to parse JWT (without a library to keep it light)
+  // Helper to decode JWT
   const parseJwt = (token: string) => {
     try {
       return JSON.parse(atob(token.split(".")[1]));
@@ -40,30 +48,68 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  // 1. Load from localStorage on mount
+
   useEffect(() => {
     const storedToken = localStorage.getItem("klipsan_token");
     if (storedToken) {
       const decodedUser = parseJwt(storedToken);
-      // Check expiry
-      if (decodedUser.exp * 1000 < Date.now()) {
-        logout(); // Token expired
-      } else {
+      if (decodedUser && decodedUser.exp * 1000 > Date.now()) {
         setToken(storedToken);
         setUser(decodedUser);
+      } else {
+        localStorage.removeItem("klipsan_token");
       }
     }
   }, []);
 
-  // 2. Login Action
-  const login = (newToken: string) => {
-    localStorage.setItem("klipsan_token", newToken);
-    setToken(newToken);
-    setUser(parseJwt(newToken));
-    router.push("/"); // Redirect home or dashboard
+  // 2. Login Logic
+  const login = async (data: LoginData) => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      
+      const response = await apiPost("/auth/authenticate", data);
+      
+      
+      const newToken = response.token;
+      localStorage.setItem("klipsan_token", newToken);
+      setToken(newToken);
+      setUser(parseJwt(newToken));
+      
+      // Redirect
+      router.push("/shop"); // Or back to checkout
+    } catch (err: any) {
+      setError("Invalid email or password.");
+      console.error(err);
+      throw err; // Re-throw so the UI can handle specific animations if needed
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  // 3. Logout Action
+  // 3. Register Logic
+  const register = async (data: RegisterData) => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      // Call Java Backend
+      const response = await apiPost("/auth/register", data);
+      
+      // Auto-login after register
+      const newToken = response.token;
+      localStorage.setItem("klipsan_token", newToken);
+      setToken(newToken);
+      setUser(parseJwt(newToken));
+      
+      router.push("/shop");
+    } catch (err: any) {
+      setError("Registration failed. Email might be taken.");
+      throw err;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const logout = () => {
     localStorage.removeItem("klipsan_token");
     setToken(null);
@@ -77,8 +123,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         user,
         token,
         login,
+        register,
         logout,
         isAuthenticated: !!user,
+        isLoading,
+        error,
       }}
     >
       {children}
