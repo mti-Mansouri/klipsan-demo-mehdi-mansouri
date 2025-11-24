@@ -2,9 +2,10 @@
 import { useCart } from "@/context/cart-context";
 import ButtonKlipsan from "@/components/button-comonent";
 import Link from "next/link";
-
+import { useAuth } from "@/context/auth-context";
 export default function ShoppingCartPage() {
   const { items, totalPrice, removeItem, updateQuantity } = useCart();
+  const { isAuthenticated } = useAuth();
 
   return (
     <main className="min-h-screen w-screen bg-white py-[120px] px-[10%] flex flex-col items-start gap-4 ">
@@ -78,11 +79,11 @@ export default function ShoppingCartPage() {
         </div>
       )}
       {items.length > 0 ? (
-        <Link href={"/checkout"}>
+        <Link  href={isAuthenticated ? "/checkout" : "/login"}>
           <ButtonKlipsan theme="light">Checkout</ButtonKlipsan>
         </Link>
       ) : (
-        <Link href={"/shop"}>
+        <Link  href={"/shop"}>
           <ButtonKlipsan theme="light">Continue Shopping</ButtonKlipsan>
         </Link>
       )}

@@ -6,6 +6,7 @@ import localfont from "next/font/local";
 import { CartProvider } from "@/context/cart-context";
 import CartLoadingModal from "@/components/cart-loading-modal";
 import { BackendStatusProvider } from "@/context/backend-status-context";
+import { AuthProvider } from "@/context/auth-context";
 // import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -15,10 +16,10 @@ const bebas = localfont({
       path: "../../public/fonts/BebasNeue-Regular.ttf",
       weight: "400",
       style: "normal",
-    }
+    },
   ],
   variable: "--font-bebas",
-})
+});
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",
 //   subsets: ["latin"],
@@ -40,21 +41,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en"
-    className={bebas.variable}
-    >
+    <html lang="en" className={bebas.variable}>
       <body
       // className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <BackendStatusProvider>
+        <AuthProvider>
+          <BackendStatusProvider>
+            <CartProvider>
+              <NavBar />
+              {children}
+              <Footer />
+              <CartLoadingModal />
+            </CartProvider>
+          </BackendStatusProvider>
+        </AuthProvider>
 
-                  <CartProvider>
-          <NavBar />
-          {children}
-          <Footer />
-          <CartLoadingModal />
-        </CartProvider>
-        </BackendStatusProvider>
         <Analytics />
       </body>
     </html>

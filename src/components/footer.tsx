@@ -1,6 +1,14 @@
+"use client";
 import Link from "next/link";
 import ButtonKlipsan from "./button-comonent";
+import { usePathname } from "next/navigation";
+
 export default function Footer() {
+  const path = usePathname();
+  if (path === "/checkout") {
+    return null;
+  }
+
   return (
     <footer
       className=" text-white bg-black flex flex-col justify-start items-center w-screen h-[calc(100vh-200px)]
