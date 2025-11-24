@@ -11,23 +11,28 @@ export default function Footer() {
 
   return (
     <footer
-      className=" text-white bg-black flex flex-col justify-start items-center w-screen h-[calc(100vh-200px)]
+      className=" text-white bg-black
+       flex flex-col justify-start items-center
+        w-full py-10 md:h-[calc(100vh-200px)] md:py-0
         
         "
     >
-      <section className="h-[50%] w-[85%]   flex flex-col justify-start items-start gap-10 border-b-2 pt-[40px]  ">
-        <div className="font-bebas font-bold text-[40px] uppercase">
+      <section className="w-[85%] flex flex-col gap-8 border-b-2 border-white/20 pb-10 md:h-[50%] md:justify-center md:pb-0">
+        <div className="font-bebas font-bold text-[30px] md:text-[40px] uppercase">
           STAY UPDATED
         </div>
-        <div className="flex  ">
-          <p className=" max-w-[50%] grow-1 text-lg">
+        <div className="flex flex-col md:flex-row gap-6  ">
+          <p className="text-base md:text-lg md:max-w-[50%]">
             Sign up to be the first to find out when we add new classes,
             amenities, and more. We respect your privacy and will never share
             your information with any third-party vendors.{" "}
           </p>
-          <form className="flex justify-end items-end grow-2 gap-5   ">
+          <form className="flex flex-col md:flex-row gap-4 grow justify-end items-start md:items-end">
             <input
-              className=" bg-white h-[50px]  border-4 text-black  focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 w-[200px] p-2"
+              className=" bg-white h-[50px]  border-4 text-black
+                focus:outline-none focus:ring-2
+                 focus:ring-white focus:ring-offset-2  p-2 w-full md:w-[200px]"
+
               type="email"
               name=""
               id=""
@@ -38,10 +43,10 @@ export default function Footer() {
         </div>
       </section>
       {/* lower part */}
-      <section className="w-[85%] flex  pt-[40px] ">
-        <section className="flex  justify-between grow-1">
-          <section>
-            <p className="font-bebas font-bold text-[30px] pb-[20px]">
+      <section className="w-[85%] flex flex-col md:flex-row pt-10 gap-10 md:gap-0 h-auto md:h-[50%]">
+        <section className="flex flex-col md:flex-row justify-between grow">
+          <section className="mb-8 md:mb-0">
+            <p className="font-bebas font-bold text-[24px] md:text-[30px] pb-4">
               SUPPORT
             </p>
             <ul>
@@ -57,8 +62,8 @@ export default function Footer() {
               </li>
             </ul>
           </section>
-          <section>
-            <p className="font-bebas font-bold text-[30px] pb-[20px]">
+          <section className="mb-8 md:mb-0">
+            <p className="font-bebas font-bold text-[24px] md:text-[30px] pb-4">
               CONTACT
             </p>
             <ul>
@@ -67,8 +72,8 @@ export default function Footer() {
             </ul>
           </section>
         </section>
-        <section className="grow-3 flex flex-col items-end justify-between">
-          <p className="font-bebas font-bold text-[30px] pb-[20px]">KLIPSAN</p>
+        <section className="flex flex-col items-start md:items-end justify-between md:grow-[0.5]">
+          <p className="font-bebas font-bold text-[24px] md:text-[30px] pb-4">KLIPSAN</p>
           <div className="flex gap-3">
             <svg
               fill="currentColor"
